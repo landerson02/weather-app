@@ -1,0 +1,57 @@
+body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background: url("Assets/rain.jpeg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#search-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20rem;
+    height: 6rem;
+    border: 2px solid black;
+}
+#main {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+}
+
+#center-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.box {
+    width: 40rem;
+    height: 30rem;
+    border: 2px solid black;
+    text-align: center;
+    text-shadow: 2px 2px 2px white;
+}
+
+#location {
+    font-size: 2.5rem;
+}
+
+#time {
+    margin-top: -1rem;
+    font-size: 2rem;
+}
+
+#temp {
+    font-size: 10rem;
+    margin-top: -5rem;
+}
