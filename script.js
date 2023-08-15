@@ -1,18 +1,33 @@
 let infoElements;
 let isF = true;
+const form = document.querySelector('form');
+const errorElement = document.getElementById('error');
+form.addEventListener('submit', (city) => {
+    const input = document.querySelector('input[type="text"]');
+    const loc = input.value;
+    city.preventDefault();
+    getData(loc).then(r => handleData(r));
+});
 
+let error = () => {
+    errorElement.classList.remove('invisible');
+}
 async function getData(city) {
     let r = await fetch(
-        'http://api.weatherapi.com/v1/current.json?key=95272dc9fc27494996c55527230908&q=' + city,
+        'https://api.weatherapi.com/v1/current.json?key=95272dc9fc27494996c55527230908&q=' + city,
         {mode: 'cors'});
     if(r.status === 400) {
-        console.error('failed to fetch');
+        error();
     } else {
-        r.json()
-        .then((d)=> {
-            handleData(d);
-        });
+        return r.json()
+        // .then((d)=> {
+        //     handleData(d);
+        // });
     }
+}
+
+function floorString(s) {
+    return Math.floor(parseInt(s));
 }
 
 let data = {
@@ -38,8 +53,8 @@ let getDate = (localtime) => {
 }
 
 let getTime = (localtime) => {
-    let hour = parseInt(localtime.substring(11, 13));
-    let mins = localtime.substring(14, 16);
+    let hour = parseInt(localtime.substring(localtime.indexOf(' '), localtime.indexOf(':')));
+    let mins = localtime.substring(localtime.indexOf(':')+1);
     let isAM = true;
     if(hour > 12) {
         isAM = false;
@@ -47,20 +62,30 @@ let getTime = (localtime) => {
     }
     return hour + ':' + mins + (isAM ? 'AM' : 'PM');
 }
+
+let getCondition = (cond) => {
+    const code = parseInt(cond);
+    if(!data.isDay) return 'night';
+    if(1003 <= code && code <= 1009) return 'cloudy';
+    if(code===1030||code===1063||code===1135||code===1147||code===1150||
+        (1180 <= code && code<= 1189) || (1198<=code && code<=1207)) return 'rain';
+    if(code >= 1273) return 'thunderstorm';
+    if(code===1000) return 'sunny';
+    if(code===1171||code===1179|| (1207<=code && code<=1237)||(1252<=code && code<=1264)) return 'snow';
+    return 'sunny';
+}
 let handleData = (d) => {
-    console.log(d);
     data.city = d.location.name;
-    data.region = d.location.region;
-    data.condition = d.current.condition.text;
+    data.region = d.location.country==='United States of America'?d.location.region : d.location.country;
+    data.isDay = d.current.is_day;
+    data.condition = getCondition(d.current.condition.code);
     data.date = getDate(d.location.localtime);
     data.time = getTime(d.location.localtime);
-    data.tempC = d.current.temp_c;
-    data.tempF = d.current.temp_f;
-    data.isDay = d.current.is_day;
-    data.feelsLikeC = d.current.feelslike_c;
-    data.feelsLikeF = d.current.feelslike_f;
-    data.humidity = d.current.humidity + '%';
-    console.log(data);
+    data.tempC = floorString(d.current.temp_c) + '°C';
+    data.tempF = floorString(d.current.temp_f) + '°F';
+    data.feelsLikeC = d.current.feelslike_c + '°C';
+    data.feelsLikeF = floorString(d.current.feelslike_f) + '°F';
+    data.humidity = floorString(d.current.humidity) + '%';
     updateUI();
 }
 
@@ -71,13 +96,19 @@ let getElements = () => {
         temp: document.getElementById('temp'),
         feelsLike: document.getElementById('feels-like'),
         humidity: document.getElementById('humidity'),
+        main: document.getElementById('main'),
     }
 }
 
 let updateUI = () => {
     infoElements.location.textContent = data.city + ", " + data.region;
     infoElements.time.textContent = data.date + ", " + data.time;
-    infoElements.temp.textContent = isF ? data.tempF : data.tempC;
-    infoElements.feelsLike.textContent = isF ? data.feelsLikeF : data.feelsLikeC;
-    infoElements.humidity.textContent = data.humidity;
+    infoElements.temp.textContent = (isF ? data.tempF : data.tempC);
+    infoElements.feelsLike.textContent = 'Feels Like: ' + (isF ? data.feelsLikeF : data.feelsLikeC);
+    infoElements.humidity.textContent = 'Humidity: ' + data.humidity;
+    infoElements.main.classList.remove(...infoElements.main.classList);
+    console.log(data.condition);
+    infoElements.main.classList.add(data.condition + 'BG');
 }
+
+getElements();
