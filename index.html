@@ -6,21 +6,28 @@
     <script src="script.js" defer></script>
     <link href="style.css" rel="stylesheet">
 </head>
-<body>
+<body id="main">
 
 <div id="center-row">
     <div id="info-area" class="box">
         <h1 id="location"></h1>
         <h5 id="time"></h5>
         <div id="temp"></div>
-        <div id="other">
+        <div id="other-info">
             <h5 id="feels-like"></h5>
             <h5 id="humidity"></h5>
         </div>
     </div>
 
     <div id="search-area" class="box">
-
+        <form>
+            <label for="city">Enter A City:</label>
+            <br>
+            <input type="text" id="city">
+            <input type="submit">
+        </form>
+        <br>
+        <div id="error" class="invisible">ERROR: location not found, please try again</div>
     </div>
 </div>
 
