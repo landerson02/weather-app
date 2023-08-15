@@ -1,24 +1,20 @@
+:root {
+    color: rgb(50, 50, 50);
+}
+
 body {
     display: flex;
     justify-content: center;
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
-    background: url("Assets/rain.jpeg") no-repeat center center fixed;
+    /*background: url("Assets/sunny.jpeg") no-repeat center center fixed;*/
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
 
-#search-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 20rem;
-    height: 6rem;
-    border: 2px solid black;
-}
 #main {
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -53,5 +49,36 @@ body {
 
 #temp {
     font-size: 10rem;
-    margin-top: -5rem;
+    margin-top: -2rem;
+    align-self: start;
+}
+
+#other-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 5rem;
+    font-size: 3rem;
+}
+
+.cloudyBG {
+    background: url("Assets/cloudy.jpg") no-repeat center center fixed;
+}
+.sunnyBG {
+    background: url("Assets/sunny.jpeg") no-repeat center center fixed;
+}
+.rainBG {
+    background: url("Assets/rain.jpeg") no-repeat center center fixed;
+}
+.snowBG {
+    background: url("Assets/snow.jpeg") no-repeat center center fixed;
+}
+.thunderstormBG {
+    background: url("Assets/thunderstorm.jpeg") no-repeat center center fixed;
+}
+.nightBG {
+    background: url("Assets/night.jpeg") no-repeat center center fixed;
+}
+.clearBG {
+    background: url("Assets/clear.jpg") no-repeat center center fixed;
 }
