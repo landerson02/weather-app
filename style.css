@@ -1,11 +1,15 @@
-:root {
+.lightText {
+    color: rgb(200, 200, 200);
+}
+
+.darkText {
     color: rgb(50, 50, 50);
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*flex-direction: column;*/
     height: 100vh;
     overflow: hidden;
     /*background: url("Assets/sunny.jpeg") no-repeat center center fixed;*/
@@ -15,13 +19,18 @@ body {
     background-size: cover;
 }
 
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
 #main {
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    height: 100%;
-    width: 100%;
 }
 
 #center-row {
@@ -30,12 +39,28 @@ body {
     justify-content: space-evenly;
 }
 
-.box {
+#info-area {
     width: 40rem;
     height: 30rem;
-    border: 2px solid black;
     text-align: center;
-    text-shadow: 2px 2px 2px white;
+}
+
+#search-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+}
+
+#error {
+    font-size: 1.5rem;
+    color: red;
+    border: 1px solid red;
+}
+
+.invisible {
+    visibility: hidden;
 }
 
 #location {
@@ -59,6 +84,14 @@ body {
     justify-content: center;
     gap: 5rem;
     font-size: 3rem;
+}
+
+#input {
+    width: 12rem;
+    height: 4rem;
+    background: rgba(0, 0, 0, .2);
+    font-size: 1.5rem;
+    border-radius: .5rem;
 }
 
 .cloudyBG {

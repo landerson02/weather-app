@@ -1,10 +1,14 @@
+const root = document.documentElement;
 let infoElements;
 let isF = true;
 const form = document.querySelector('form');
 const errorElement = document.getElementById('error');
+const input = document.getElementById('input');
 form.addEventListener('submit', (city) => {
     const input = document.querySelector('input[type="text"]');
     const loc = input.value;
+    input.value = '';
+    input.focus();
     city.preventDefault();
     getData(loc).then(r => handleData(r));
 });
@@ -19,6 +23,7 @@ async function getData(city) {
     if(r.status === 400) {
         error();
     } else {
+        errorElement.classList.add('invisible');
         return r.json()
         // .then((d)=> {
         //     handleData(d);
@@ -76,7 +81,7 @@ let getCondition = (cond) => {
 }
 let handleData = (d) => {
     data.city = d.location.name;
-    data.region = d.location.country==='United States of America'?d.location.region : d.location.country;
+    data.region = (d.location.country==='United States of America'||d.location.country==='USA')?d.location.region : d.location.country;
     data.isDay = d.current.is_day;
     data.condition = getCondition(d.current.condition.code);
     data.date = getDate(d.location.localtime);
@@ -107,8 +112,19 @@ let updateUI = () => {
     infoElements.feelsLike.textContent = 'Feels Like: ' + (isF ? data.feelsLikeF : data.feelsLikeC);
     infoElements.humidity.textContent = 'Humidity: ' + data.humidity;
     infoElements.main.classList.remove(...infoElements.main.classList);
-    console.log(data.condition);
+    if (data.isDay) {
+        root.classList.remove('lightText', 'darkText');
+        root.classList.add('darkText');
+        input.classList.remove('lightText', 'darkText');
+        input.classList.add('darkText');
+    } else {
+        root.classList.remove('lightText', 'darkText');
+        root.classList.add('lightText');
+        input.classList.remove('lightText', 'darkText');
+        input.classList.add('lightText');
+    }
     infoElements.main.classList.add(data.condition + 'BG');
 }
 
 getElements();
+getData('Los Angeles').then(r=>handleData(r));
